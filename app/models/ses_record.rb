@@ -9,9 +9,9 @@ class SesRecord
 
     @spam = receipt["spamVerdict"]["status"] == "PASS"
     @virus = receipt["virusVerdict"]["status"] == "PASS"
-    @dns = ["spfVerdict", "dkimVerdict", "dmarcVerdict"].all? { |key| receipt[key]["status"] == "PASS" }
+    @dns = [ "spfVerdict", "dkimVerdict", "dmarcVerdict" ].all? { |key| receipt[key]["status"] == "PASS" }
     @mes = Date.parse(mail["timestamp"]).strftime("%B") # Converts to Month Name
-    @retrasado = receipt["processingTimeMillis"] > 1000
+    @retrasado = receipt["processingTimeMillis"].to_i > 1000
     @emisor = mail["source"].split("@").first
     @receptor = mail["destination"].map { |email| email.split("@").first }
   end
